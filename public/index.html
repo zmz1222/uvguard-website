@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVGuard - Protect Your Skin from UV</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">
+                <span class="brand-icon">🛡️</span>
+                <span class="brand-text">UVGuard</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#uv-tracker" class="nav-link">UV Tracker</a></li>
+                <li><a href="#awareness" class="nav-link">UV Awareness</a></li>
+                <li><a href="#skin-tool" class="nav-link">Skin Analysis</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <p class="hero-tagline">Australian UV Protection</p>
+                <h1 class="hero-title">
+                    Know Your <span class="highlight">UV Risk</span><br>
+                    Protect Your <span class="highlight-alt">Skin</span>
+                </h1>
+                <p class="hero-description">
+                    Real-time UV tracking, personalized protection advice, and awareness 
+                    about skin cancer risks in Australia.
+                </p>
+                <div class="hero-actions">
+                    <a href="#uv-tracker" class="btn btn-primary">Check Today's UV Risk</a>
+                    <a href="#awareness" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value">2 in 3</span>
+                        <span class="stat-label">Australians get skin cancer by 70</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">95%</span>
+                        <span class="stat-label">Melanomas caused by UV</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="uv-preview-card">
+                    <div class="preview-header">
+                        <span class="preview-icon">☀️</span>
+                        <span class="preview-label">Current UV Index</span>
+                    </div>
+                    <div class="preview-value" id="hero-uv-value">--</div>
+                    <div class="preview-risk" id="hero-risk-level">Loading...</div>
+                    <div class="preview-location" id="hero-location">
+                        <span>📍</span> Detecting location...
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </header>
+
+    <!-- UV Tracker Section (Epic 1) -->
+    <section id="uv-tracker" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Epic 1</span>
+                <h2 class="section-title">Track UV Levels</h2>
+                <p class="section-desc">Check the current UV risk level at your location and receive warnings when UV exposure becomes dangerous.</p>
+            </div>
+
+            <div class="uv-tracker-grid">
+                <!-- Main UV Display -->
+                <div class="uv-main-card">
+                    <div class="uv-display">
+                        <div class="uv-circle" id="uv-circle">
+                            <svg class="uv-ring" viewBox="0 0 200 200">
+                                <circle class="ring-bg" cx="100" cy="100" r="90"/>
+                                <circle class="ring-progress" id="uv-ring-progress" cx="100" cy="100" r="90"/>
+                            </svg>
+                            <div class="uv-value-container">
+                                <span class="uv-number" id="uv-value">--</span>
+                                <span class="uv-unit">UV Index</span>
+                            </div>
+                        </div>
+                        <div class="uv-details">
+                            <div class="risk-indicator" id="risk-indicator">
+                                <span class="risk-badge" id="risk-badge">Loading</span>
+                            </div>
+                            <p class="uv-message" id="uv-message">Getting UV data...</p>
+                            <div class="location-row">
+                                <span class="location-icon">📍</span>
+                                <span id="location-display">Detecting location...</span>
+                                <button class="refresh-btn" id="refresh-btn" title="Refresh">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Warning Alert -->
+                    <div class="uv-alert" id="uv-alert">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <h4 id="alert-title">UV Warning</h4>
+                            <p id="alert-message">UV level is high. Take protective measures.</p>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="recommendations" id="recommendations">
+                        <h4>Recommended Actions:</h4>
+                        <ul class="rec-list" id="rec-list">
+                            <!-- Dynamically populated -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- UV Scale -->
+                <div class="uv-scale-card">
+                    <h3>UV Index Scale</h3>
+                    <div class="scale-container">
+                        <div class="scale-item low">
+                            <div class="scale-bar"></div>
+                            <div class="scale-info">
+                                <span class="scale-range">0-2</span>
+                                <span class="scale-label">Low</span>
+                            </div>
+                            <p class="scale-desc">Minimal protection needed</p>
+                        </div>
+                        <div class="scale-item moderate">
+                            <div class="scale-bar"></div>
+                            <div class="scale-info">
+                                <span class="scale-range">3-5</span>
+                                <span class="scale-label">Moderate</span>
+                            </div>
+                            <p class="scale-desc">Protection recommended</p>
+                        </div>
+                        <div class="scale-item high">
+                            <div class="scale-bar"></div>
+                            <div class="scale-info">
+                                <span class="scale-range">6-7</span>
+                                <span class="scale-label">High</span>
+                            </div>
+                            <p class="scale-desc">Protection essential</p>
+                        </div>
+                        <div class="scale-item very-high">
+                            <div class="scale-bar"></div>
+                            <div class="scale-info">
+                                <span class="scale-range">8-10</span>
+                                <span class="scale-label">Very High</span>
+                            </div>
+                            <p class="scale-desc">Extra protection needed</p>
+                        </div>
+                        <div class="scale-item extreme">
+                            <div class="scale-bar"></div>
+                            <div class="scale-info">
+                                <span class="scale-range">11+</span>
+                                <span class="scale-label">Extreme</span>
+                            </div>
+                            <p class="scale-desc">Avoid sun exposure</p>
+                        </div>
+                    </div>
+                    <div class="scale-indicator" id="scale-indicator"></div>
+                </div>
+
+                <!-- Australian Cities UV -->
+                <div class="cities-card">
+                    <h3>UV Across Australia</h3>
+                    <div class="cities-grid" id="cities-grid">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awareness Section (Epic 2) -->
+    <section id="awareness" class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Epic 2</span>
+                <h2 class="section-title">Raise Awareness</h2>
+                <p class="section-desc">Understand the real impact of UV exposure through visualised statistics and trend data from Australia.</p>
+            </div>
+
+            <!-- Key Facts -->
+            <div class="key-facts" id="key-facts">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Melanoma Incidence Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Melanoma Incidence in Australia</h3>
+                        <p>Age-standardised rates per 100,000 population (1982-2017)</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="incidence-chart"></canvas>
+                    </div>
+                    <div class="chart-source">
+                        Source: Australian Institute of Health and Welfare
+                    </div>
+                </div>
+
+                <!-- Melanoma by State Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Melanoma by State/Territory</h3>
+                        <p>Incidence rate per 100,000 population (2017)</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="state-chart"></canvas>
+                    </div>
+                    <div class="chart-source">
+                        Source: Cancer Australia
+                    </div>
+                </div>
+
+                <!-- UV Trends Chart -->
+                <div class="chart-card chart-wide">
+                    <div class="chart-header">
+                        <h3>Monthly UV Index Trends</h3>
+                        <p>Average UV index by Australian capital city</p>
+                        <div class="chart-controls">
+                            <select id="city-select" class="city-select">
+                                <option value="all">All Cities</option>
+                                <option value="Sydney">Sydney</option>
+                                <option value="Melbourne">Melbourne</option>
+                                <option value="Brisbane">Brisbane</option>
+                                <option value="Perth">Perth</option>
+                                <option value="Adelaide">Adelaide</option>
+                                <option value="Hobart">Hobart</option>
+                                <option value="Darwin">Darwin</option>
+                                <option value="Canberra">Canberra</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-container chart-large">
+                        <canvas id="uv-trends-chart"></canvas>
+                    </div>
+                    <div class="uv-threshold-note">
+                        <span class="threshold-line"></span>
+                        <span>UV Index 6+ is considered harmful - protection essential</span>
+                    </div>
+                    <div class="chart-source">
+                        Source: Bureau of Meteorology / data.gov.au
+                    </div>
+                </div>
+
+                <!-- Age Risk Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Melanoma Risk by Age Group</h3>
+                        <p>Incidence rate per 100,000 population</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="age-chart"></canvas>
+                    </div>
+                    <div class="chart-source">
+                        Source: Cancer Australia
+                    </div>
+                </div>
+
+                <!-- Sun Protection Behaviours -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Sun Protection Behaviours</h3>
+                        <p>Percentage of Australians who "always" or "often" protect</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="protection-chart"></canvas>
+                    </div>
+                    <div class="chart-source">
+                        Source: Australian Bureau of Statistics (Nov 2023 - Feb 2024)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skin Customisation Section (Epic 3) -->
+    <section id="skin-tool" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Epic 3</span>
+                <h2 class="section-title">Skin Colour Customisation</h2>
+                <p class="section-desc">Explore how different skin colours respond to UV radiation and receive personalised sun-protection advice.</p>
+            </div>
+
+            <div class="skin-tool-container">
+                <!-- Skin Type Selector -->
+                <div class="skin-selector">
+                    <h3>Select Your Skin Type</h3>
+                    <p class="selector-desc">Click on the skin tone that best matches yours</p>
+                    <div class="skin-types-grid" id="skin-types-grid">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Result Display -->
+                <div class="skin-result" id="skin-result">
+                    <div class="result-placeholder">
+                        <div class="placeholder-icon">👆</div>
+                        <h4>Select your skin type</h4>
+                        <p>Click on a skin tone above to see personalised UV absorption information and protection recommendations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UV Absorption Explanation -->
+            <div class="uv-absorption-info" id="uv-absorption-info">
+                <h3>How Skin Colour Affects UV Absorption</h3>
+                <div class="info-content" id="absorption-content">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="brand-icon">🛡️</span>
+                    <span class="brand-text">UVGuard</span>
+                </div>
+                <p class="footer-desc">
+                    Helping Australians understand UV risks and protect their skin. 
+                    Data sourced from Cancer Australia, Australian Bureau of Statistics, and Bureau of Meteorology.
+                </p>
+                <div class="footer-links">
+                    <a href="#uv-tracker">UV Tracker</a>
+                    <a href="#awareness">UV Awareness</a>
+                    <a href="#skin-tool">Skin Analysis</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 UVGuard. Stay protected. Stay healthy.</p>
+                <p class="data-attribution">
+                    Data: Cancer Australia, AIHW, ABS, Bureau of Meteorology | 
+                    UV API: OpenWeatherMap
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
