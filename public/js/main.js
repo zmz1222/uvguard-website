@@ -126,11 +126,16 @@ function getUserLocation() {
 async function reverseGeocode(lat, lng) {
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`,
+            {
+                headers: {
+                    'Accept-Language': 'en-US,en;q=0.9'
+                }
+            }
         );
         const data = await response.json();
-        const city = data.address?.city || data.address?.town || data.address?.suburb || 'Unknown';
-        const state = data.address?.state || '';
+        const city = data.address?.city || data.address?.town || data.address?.suburb || 'Unknown Location';
+        const state = data.address?.state || data.address?.country || '';
         updateLocationDisplay(`${city}, ${state}`);
     } catch (error) {
         updateLocationDisplay('Your location');
