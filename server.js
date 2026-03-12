@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
-const fetch = require('node-fetch');
+
+// Use native fetch (Node 18+) or fallback
+const fetch = globalThis.fetch || require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
