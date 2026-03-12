@@ -126,7 +126,7 @@ function getUserLocation() {
 async function reverseGeocode(lat, lng) {
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`
         );
         const data = await response.json();
         const city = data.address?.city || data.address?.town || data.address?.suburb || 'Unknown';
